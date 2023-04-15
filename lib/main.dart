@@ -123,7 +123,7 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
                       child: Text(
                         '$_teamAScore',
                         style: TextStyle(
-                            fontSize: 450,
+                            fontSize: _teamAScore <= 100 ? 400 : 300,
                             color: _teamAScore > _teamBScore
                                 ? Colors.deepOrange
                                 : Colors.white),
@@ -139,29 +139,16 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
                   ],
                 ),
               ),
-              Expanded(
-                  child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: 
-                      Text(
-                        _handleTimer(_timerSeconds),
-                        style:
-                            TextStyle(
-                              fontSize: 100, 
-                              color: _timerSeconds != 0 ?Colors.deepOrange : Colors.white
-                            ),
-                      ),
-                  ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: _startEndTimer,
-                  child: const Icon(
-                    Icons.timer,
-                    size: 50,
+              GestureDetector(
+                onTap: _startEndTimer,
+                child: Text(
+                  _handleTimer(_timerSeconds),
+                  style: TextStyle(
+                    fontSize: 50,
+                    color: _timerSeconds != 0 ?Colors.deepOrange : Colors.white
                   ),
                 ),
-              ])),
+              ),
               Expanded(
                 child: Column(
                   children: [
@@ -174,7 +161,7 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
                       child: Text(
                         '$_teamBScore',
                         style: TextStyle(
-                            fontSize: 450,
+                            fontSize: _teamBScore <= 100 ? 350 : 300,
                             color: _teamBScore > _teamAScore
                                 ? Colors.deepOrange
                                 : Colors.white),
