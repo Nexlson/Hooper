@@ -64,6 +64,21 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
     }
   }
 
+  void _decrementPoint(team, point) {
+    if (_timerSeconds == 0 || _teamAScore < 0 || _teamBScore < 0) {
+      return;
+    }
+    if (team == 'teamA') {
+      setState(() {
+        _teamAScore -= point.toInt() as int;
+      });
+    } else {
+      setState(() {
+        _teamBScore -= point.toInt() as int;
+      });
+    }
+  }
+
   void _resetScores() {
     if (_timerSeconds != 0) {
       setState(() {
@@ -119,6 +134,13 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
                       ),
                     ),
                     GestureDetector(
+                      onVerticalDragEnd: (details) {
+                        if (details.velocity.pixelsPerSecond.dy < 0) {
+                          _incrementPoint('teamA', 1);
+                        } else {
+                          _decrementPoint('teamA', 1);
+                        }
+                      },
                       onTap: () => _incrementPoint('teamA', 2),
                       child: Text(
                         '$_teamAScore',
@@ -139,15 +161,25 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: _startEndTimer,
-                child: Text(
-                  _handleTimer(_timerSeconds),
-                  style: TextStyle(
-                    fontSize: 50,
-                    color: _timerSeconds != 0 ?Colors.deepOrange : Colors.white
+              Column(
+                children: [
+                  Text(
+                    _handleTimer(_timerSeconds),
+                    style: TextStyle(
+                        fontSize: 50,
+                        color: _timerSeconds != 0
+                            ? Colors.deepOrange
+                            : Colors.white),
                   ),
-                ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                          onPressed: _startEndTimer,
+                          child: const Icon(
+                            Icons.timer,
+                            size: 50,
+                          ),
+                  ),
+                ],
               ),
               Expanded(
                 child: Column(
@@ -157,6 +189,13 @@ class _BasketballCounterHomePageState extends State<BasketballCounterHomePage> {
                       style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     GestureDetector(
+                      onVerticalDragEnd: (details) {
+                        if (details.velocity.pixelsPerSecond.dy < 0) {
+                          _incrementPoint('teamB', 1);
+                        } else {
+                          _decrementPoint('teamB', 1);
+                        }
+                      },
                       onTap: () => _incrementPoint('teamB', 2),
                       child: Text(
                         '$_teamBScore',
