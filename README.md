@@ -7,3 +7,6 @@ A new Flutter project.
 To run the project, make sure you are able to run flutter.
 
 `flutter run --release`
+
+## UI
+![Hooper app UI](./demo.png)
